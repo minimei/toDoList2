@@ -7,35 +7,43 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <link rel="stylesheet" type="text/css" href="css/index2.css">
+        <link rel="stylesheet" type="text/css" href="css/index3.css">
         <title>Todoapp</title>
-
-        <!--<link rel="stylesheet" href="css/themes/test.css" /> 
-        
-            <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" /> -->
-
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" /> 
+        <!--
+        <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
         <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
-        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
     </head>
     <body>
-        <div class = "app">
-        <div id="myDIV" class="header">
-            <h2>My To Do List</h2>
-            <input type="text" id="myInput" placeholder="Title...">
-            <span onclick="newElement()" class="addBtn">Add</span>
-          </div>
+        
+        <div data-role="page">
+         <!--Page1-->
+          <div data-role="page">
+             <!--Header-->
+            <div id="myDIV" class="header">
+                <h2>To Do List</h2>
+                <input type="text" name="myInput" id="myInput" placeholder="Name a task" value="">
+                <span class="addBtn">Add</span>
+            </div>
+            <!--Listview-->
+            <div data-role="content">
+
+                  <ul id="myUL">
+                    <li class=>Hit the gym</li>
+                    <li class="checked">Pay bills</li>
+                    <li>Meet George</li>
+                    <li>Buy eggs</li>
+                    <li>Read a book</li>
+                    <li>Organize office</li>
+                  </ul>
+            </div>
+            
+        </div>
           
-          <ul id="myUL">
-            <li>Hit the gym</li>
-            <li class="checked">Pay bills</li>
-            <li>Meet George</li>
-            <li>Buy eggs</li>
-            <li>Read a book</li>
-            <li>Organize office</li>
-          </ul>
+          
+
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </div>
+        <script type="text/javascript" src="js/index3.js"></script>
+        </div>
     </body>
 </html>

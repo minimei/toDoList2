@@ -1,46 +1,92 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+
 var app = {
+   
+    
     // Application Constructor
     initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+    
+        //cordova events
+        document.addEventListener('deviceReady', this.onDeviceReady.bind(this), false);
+        document.addEventListener('pauseListener', this.pauseListener.bind(this), false);
+        document.addEventListener('resumeListener', this.resumeListener.bind(this), false);
+        document.addEventListener('backButtonListener', this.backButtonListener.bind(this), false);
+
+        //application events
+        
+        //listen to add btn
+        $( "#addBtn" ).click(this.handleUserInput);
+        
     },
 
-    // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
+    //When user move to another application
+    pauseListener: function(){
+
+        alert("paused");
+        //when app is paused, save list
+        //saveList(toDoList);
+    },
+
+    ///When user returns to the application
+    
+    resumeListener: function(){
+        //when app is resumed load list
+    },
+
+    backButtonListener: function(){
+
+        //when backbutton is pressed, exit app
+        //saveList(toDoList);
+       //navigator.app.exitApp();
+
+    },
+
+    handleUserInput: function(){
+        
+        //create element
+        var li = $("<li>");
+        //get element by value
+        var inputValue = $("#userInput").val();
+        //create text node later
+        var textNode = li.append(inputValue);
+
+        //validate if user input data
+        if(inputValue === ''){
+            alert("You must write something!");
+        }
+        else{ 
+            //append user input data to <li> 
+            textNode;
+            $('#myUL').prepend(li);
+        } 
+        inputValue = " ";
+
+        //reset textfield
+        $("#container").find('input:text').val('')
+        
+       
+        
+    },
+
+    //load application
+
     onDeviceReady: function() {
-        this.receivedEvent('deviceready');
-    },
 
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+        alert("Application is loaded");
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+       pauseListener();
+       resumeListener();
+       backButtonListener();
 
-        console.log('Received Event: ' + id);
+       
+       
+
+
+
+
+       
+
     }
+
 };
 
 app.initialize();
