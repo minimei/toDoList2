@@ -15,30 +15,46 @@ var app = {
         
         //listen to add btn
         $( "#addBtn" ).click(this.handleUserInput);
-        
+        $( "#addBtn").click(this.userDataSave);
+
+        // Add a "checked" symbol when clicking on a list item
+        var list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+                                if (ev.target.tagName === 'LI') {
+                                ev.target.classList.toggle('checked');}}, false);
+                                                                            
+
     },
 
     //When user move to another application
     pauseListener: function(){
 
         alert("paused");
-        //when app is paused, save list
-        //saveList(toDoList);
     },
 
     ///When user returns to the application
     
     resumeListener: function(){
         //when app is resumed load list
+        
+        const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+
+        tasks.forEach(function(tasks){
+        //for each task in loaded task list, append an item to the ul element
+        $('#myUL').prepend($("<li>").text(tasks));
+       
+
+        });
     },
 
     backButtonListener: function(){
 
         //when backbutton is pressed, exit app
-        //saveList(toDoList);
-       //navigator.app.exitApp();
+       this.userDataSave();
+       navigator.app.exitApp();
 
     },
+
 
     handleUserInput: function(){
         
@@ -60,12 +76,32 @@ var app = {
         } 
         inputValue = " ";
 
-        //reset textfield
+        //reset textfield after user submit
         $("#container").find('input:text').val('')
-        
-       
-        
+           
     },
+
+    userDataSave: function(){
+
+        const acceptInput = $("#userInput").val();
+
+        //load current tasks or empty array
+        const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+
+        tasks.push(acceptInput);
+
+        //persist updated task list to local storage
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        /*var saveList= {};
+        $("#userInput").each(function(){
+            saveList[this.id] = this.value;
+        })
+        localStorage.setItem('addButtonString', JSON.stringify(saveList));
+
+        console.log(localStorage.getItem('addButtonString'));
+        console.log(JSON.parse(localStorage.getItem('addButtonString')));*/
+    },
+
 
     //load application
 
@@ -76,11 +112,10 @@ var app = {
        pauseListener();
        resumeListener();
        backButtonListener();
-
-       
-       
+       handleUserInput();
 
 
+        
 
 
        
