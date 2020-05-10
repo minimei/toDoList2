@@ -5,58 +5,43 @@ var app = {
     // Application Constructor
     initialize: function() {
     
-        //cordova events
+        //Cordova events
         document.addEventListener('deviceReady', this.onDeviceReady.bind(this), false);
         document.addEventListener('pauseListener', this.pauseListener.bind(this), false);
         document.addEventListener('resumeListener', this.resumeListener.bind(this), false);
         document.addEventListener('backButtonListener', this.backButtonListener.bind(this), false);
-
-        //application events
+  
+        //Application Events
         
-        //listen to add btn
-        $( "#addBtn" ).click(this.handleUserInput);
-        //listen to add btn to save each data to local storage
-        $( "#addBtn").click(this.userDataSave);
+            //Listen to add btn
+            $( "#addBtn" ).click(this.handleUserInput);
+            //Listen to add btn to save each data to local storage
+            $( "#addBtn").click(this.userDataSave);
 
-        // Add a "checked" symbol when clicking on a list item
-        var list = document.querySelector('ul');
-        list.addEventListener('click', this.checkItem).bind(this), false;
+            // Add a "checked" symbol when clicking on a list item
+            var list = document.querySelector('ul');
+            list.addEventListener('click', this.checkItem.bind(this), false);
+    
 
-        // Create a "close" button and append it to each list item
-        document.addEventListener('close', this.createClose.bind(this), false);
-       
+            
+ },
 
-        // Click on a close button to hide the current list item
-        var close = document.getElementsByClassName("close");
-        var i;
-        for (i = 0; i < close.length; i++) {
-        close[i].onclick = function() {
-        var div = this.parentElement;
-        div.style.display = "none";
-  }
-}
-                                
+         checkItem: function(ev){
 
-                                
-
-    },
-
-    checkItem: function(ev){
-
-        if (ev.target.tagName === 'LI') {
+            if (ev.target.tagName === 'LI') {
             ev.target.classList.toggle('checked');}
 
-    },
+            },
 
-    //When user move to another application
-    pauseListener: function(){
-
+         //When user move to another application
+        pauseListener: function(){
+        e.preventDefault();
         alert("paused");
-    },
+        },
 
-    ///When user returns to the application
+        //When user returns to the application
     
-    resumeListener: function(){
+        resumeListener: function(){
         //when app is resumed load list
         
         const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
@@ -95,13 +80,32 @@ var app = {
             //append user input data to <li> 
             textNode;
             $('#myUL').prepend(li);
-            createClose();
         } 
         inputValue = " ";
 
         //reset textfield after user submit
-        $("#container").find('input:text').val('')
-    
+        $("#container").find('input:text').val('');
+
+        // Create a "close" button and append it to each list item
+        var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        myNodelist[i].appendChild(span);
+            }
+
+        // Click on a close button to hide the current list item
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+        var div = this.parentElement;
+        div.style.display = "none";
+  }
+}
         
            
     },
@@ -120,20 +124,6 @@ var app = {
         
     },
 
-    createClose: function(){
-         
-        var myNodelist = document.getElementsByTagName("LI");
-        var i;
-        for (i = 0; i < myNodelist.length; i++) {
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("\u00D7");
-        span.className = "close";
-        span.appendChild(txt);
-        myNodelist[i].appendChild(span);
-}
-    },
-
-
     //load application
 
     onDeviceReady: function() {
@@ -143,17 +133,9 @@ var app = {
        resumeListener();
        backButtonListener();
        handleUserInput();
+       
        checkItem();
 
-       
-  
-
-           
-
-        
-
-
-       
 
     }
 
