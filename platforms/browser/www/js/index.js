@@ -15,14 +15,36 @@ var app = {
         
         //listen to add btn
         $( "#addBtn" ).click(this.handleUserInput);
+        //listen to add btn to save each data to local storage
         $( "#addBtn").click(this.userDataSave);
 
         // Add a "checked" symbol when clicking on a list item
         var list = document.querySelector('ul');
-        list.addEventListener('click', function(ev) {
-                                if (ev.target.tagName === 'LI') {
-                                ev.target.classList.toggle('checked');}}, false);
-                                                                            
+        list.addEventListener('click', this.checkItem).bind(this), false;
+
+        // Create a "close" button and append it to each list item
+        document.addEventListener('close', this.createClose.bind(this), false);
+       
+
+        // Click on a close button to hide the current list item
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+        var div = this.parentElement;
+        div.style.display = "none";
+  }
+}
+                                
+
+                                
+
+    },
+
+    checkItem: function(ev){
+
+        if (ev.target.tagName === 'LI') {
+            ev.target.classList.toggle('checked');}
 
     },
 
@@ -73,11 +95,14 @@ var app = {
             //append user input data to <li> 
             textNode;
             $('#myUL').prepend(li);
+            createClose();
         } 
         inputValue = " ";
 
         //reset textfield after user submit
         $("#container").find('input:text').val('')
+    
+        
            
     },
 
@@ -92,14 +117,20 @@ var app = {
 
         //persist updated task list to local storage
         localStorage.setItem("tasks", JSON.stringify(tasks));
-        /*var saveList= {};
-        $("#userInput").each(function(){
-            saveList[this.id] = this.value;
-        })
-        localStorage.setItem('addButtonString', JSON.stringify(saveList));
+        
+    },
 
-        console.log(localStorage.getItem('addButtonString'));
-        console.log(JSON.parse(localStorage.getItem('addButtonString')));*/
+    createClose: function(){
+         
+        var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "close";
+        span.appendChild(txt);
+        myNodelist[i].appendChild(span);
+}
     },
 
 
@@ -107,13 +138,17 @@ var app = {
 
     onDeviceReady: function() {
 
-        alert("Application is loaded");
 
        pauseListener();
        resumeListener();
        backButtonListener();
        handleUserInput();
+       checkItem();
 
+       
+  
+
+           
 
         
 
